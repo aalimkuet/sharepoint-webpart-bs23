@@ -26,3 +26,8 @@
   background-color: #4f9c72;
   color: white;
 }
+
+.ql-editor .ql-blank{
+  /* Your custom styles here */
+  height: 8rem !important;
+}

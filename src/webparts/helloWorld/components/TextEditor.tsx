@@ -1,6 +1,7 @@
 import * as React from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import "./table.css";
 
 type EditorModules = {
   toolbar: any[][];
@@ -21,7 +22,11 @@ type EditorFormats =
   | "indent"
   | "link"
   | "image"
-  | "video";
+  | "color"
+  | "align"
+  | "video"
+  | "clean"
+;
 
 type EditorProps = {
   onEditorChange: (content: string) => void;
@@ -30,14 +35,9 @@ type EditorProps = {
 const Editor: React.FC<EditorProps> = ({ onEditorChange }) => {
   const [value, setValue] = React.useState("");
 
-  const handleChange = (
-    content: string,
-    delta: any,
-    source: any,
-    editor: any
-  ) => {
+  const handleChange = (content: string) => {
     setValue(content);
-    onEditorChange(content); // Pass the content back to the parent component
+    onEditorChange(content);
   };
 
   const modules: EditorModules = {
@@ -45,17 +45,17 @@ const Editor: React.FC<EditorProps> = ({ onEditorChange }) => {
       [{ header: "1" }, { header: "2" }, { font: [] }],
       [{ size: [] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ color: [] }, { background: [] }],
       [
         { list: "ordered" },
         { list: "bullet" },
         { indent: "-1" },
         { indent: "+1" },
       ],
-      ["link", "image", "video"],
-      ["clean"],
+      [{ align: [] }],
+      ["link", "image", "video"], 
     ],
     clipboard: {
-      // toggle to add extra line breaks when pasting HTML:
       matchVisual: false,
     },
   };
@@ -75,6 +75,9 @@ const Editor: React.FC<EditorProps> = ({ onEditorChange }) => {
     "link",
     "image",
     "video",
+    "align",
+    "color",
+    "clean",
   ];
 
   return (

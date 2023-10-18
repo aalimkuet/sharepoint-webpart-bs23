@@ -15,7 +15,9 @@ import "@pnp/sp/files";
 
 class MasterService {
   public siteUrl: string;
+  public kmsSiteUrl: string;
   public sp: any;
+  public kmsSP: any;
   public siteRelativeUrl: string;
   public currentUserId: number;
   public currentUserDetails: any;
@@ -24,27 +26,44 @@ class MasterService {
     this.siteUrl = context.pageContext.web.absoluteUrl;
     this.siteRelativeUrl = context.pageContext.web.serverRelativeUrl;
     this.sp = spfi(this.siteUrl).using(SPFx(context));
+
+    this.kmsSiteUrl = "https://brainstationo365.sharepoint.com/sites/kms";
+    this.kmsSP = spfi(this.kmsSiteUrl).using(SPFx(context));
   }
 
   public async getData() {
-    debugger;
-    console.log("object loaded");
     try {
       const items: any[] = await this.sp.web.lists
         .getByTitle("TestCRUD")
         .items();
-      console.log(items);
+      return items;
     } catch (e) {
       console.log(e);
     }
   }
 
-  public async insertData(data: any): Promise<any> {
+  public async getAccessLogData() {
     try {
-      const list = this.sp.web.lists.getByTitle("TestCRUD");
-      const result = await list.items.add(data);
-      console.log("Item added: ", result);
-      return result;
+      const items: any[] = await this.kmsSP.web.lists
+        .getByTitle("AccessLog")
+        .items();
+      return items;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  public async insertData(data: any) {
+    try {
+      debugger;
+      console.log(data);
+      let response = await this.sp.web.lists
+        .getByTitle("TestCRUD")
+        .items.add(data);
+      console.log(response);
+      //const result = await list.items.add(data);
+      // console.log("Item added: ", list);
+      //return list;
     } catch (error) {
       console.log("Error occurred while inserting data: ", error);
       throw error;
