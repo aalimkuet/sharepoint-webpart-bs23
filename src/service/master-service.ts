@@ -12,6 +12,7 @@ import "@pnp/sp/sputilities";
 import "@pnp/sp/navigation";
 import "@pnp/sp/folders";
 import "@pnp/sp/files";
+import "@pnp/sp/presets/all";
 
 class MasterService {
   public siteUrl: string;
@@ -30,6 +31,29 @@ class MasterService {
     this.kmsSiteUrl = "https://brainstationo365.sharepoint.com/sites/kms";
     this.kmsSP = spfi(this.kmsSiteUrl).using(SPFx(context));
   }
+
+  createNavigationMenu = async () => {
+    const navigationNodes = [
+      {
+        Title: "My Menu",
+        Url: "/sites/helloworld2/SitePages/My-Page.aspx",
+        IsExternal: true,
+      },
+    ];
+
+    try {
+      //const nav = this.sp.web.navigation.topNavigationBar;
+      const nav = this.sp.web.navigation.quicklaunch;
+      for (const node of navigationNodes) {
+        await nav.add(node.Title, node.Url, node.IsExternal);
+      }
+      console.log("Navigation menu created successfully");
+      const state2 = await this.sp.navigation.getMenuState("1025", 5);
+      console.log(state2);
+    } catch (error) {
+      console.log("An error occurred:", error);
+    }
+  };
 
   public async getData() {
     try {

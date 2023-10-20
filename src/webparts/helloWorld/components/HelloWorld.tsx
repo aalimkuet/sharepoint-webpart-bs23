@@ -1,7 +1,7 @@
 import * as React from "react";
 import styles from "./HelloWorld.module.scss";
 import type { IHelloWorldProps } from "./IHelloWorldProps";
-import MasterService from "../../../service/master-service"; 
+import MasterService from "../../../service/master-service";
 import KmsAccessTable from "./KmsAccessTable";
 
 export default class HelloWorld extends React.Component<IHelloWorldProps, {}> {
@@ -15,10 +15,11 @@ export default class HelloWorld extends React.Component<IHelloWorldProps, {}> {
     this.siteUrl = this.props.context.pageContext.web.absoluteUrl;
     this.masterService = new MasterService(this.props.context);
     this.ReplaceWikiDescription = this.ReplaceWikiDescription.bind(this);
+    this.Test = this.Test.bind(this);
   }
 
   public Test(param: any): void {
-    alert(param);
+    this.masterService.createNavigationMenu();
   }
 
   public ReplaceWikiDescription = () => {
@@ -55,10 +56,10 @@ export default class HelloWorld extends React.Component<IHelloWorldProps, {}> {
     return (
       <section>
         <div className={styles.welcome}>
-          {/* <h2>Welcome, Brain Station-23!</h2>
-          <button type="button" onClick={this.ReplaceWikiDescription}>
+          <h2>Welcome, Brain Station-23!</h2>
+          <button type="button" onClick={this.Test}>
             Click
-          </button> */}
+          </button>
 
           {/* <div
             dangerouslySetInnerHTML={{
